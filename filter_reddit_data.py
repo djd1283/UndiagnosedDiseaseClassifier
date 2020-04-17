@@ -23,7 +23,6 @@ neg_posts_multiplier = 10
 data_dir = 'data/'
 accepted_submissions_file = 'accepted_submissions.tsv'
 rejected_submissions_file = 'rejected_submissions.tsv'
-negative_submissions_file = 'negative_submissions.tsv'
 titles_file = 'submission_titles.txt'
 start_over = False
 
@@ -99,9 +98,7 @@ def load_credentials():
     return creds
 
 
-def generate_negative_posts(n_posts):
-    # TODO find regular posts from popular subreddits as negative examples for training a classifier
-    return []
+
 
 
 def main():
@@ -128,7 +125,7 @@ def main():
 
     accepted_submissions, rejected_submissions = annotate_undiagnosed_reddit_posts(reddit, ignored_titles=ignored_titles)
 
-    negative_submissions = generate_negative_posts(len(accepted_submissions) * neg_posts_multiplier)
+    # negative_submissions = generate_negative_posts(len(accepted_submissions) * neg_posts_multiplier)
 
     if len(accepted_submissions) > 0:
         print(accepted_submissions[0][0])
@@ -137,7 +134,7 @@ def main():
 
     # here we write titles to check for duplicates
     with open(os.path.join(data_dir, titles_file), 'w' if start_over else 'a') as f_titles:
-        for submission in (accepted_submissions + rejected_submissions + negative_submissions):
+        for submission in (accepted_submissions + rejected_submissions):
             f_titles.write(submission[0] + '\n')
 
     # we write posts annotated as undiagnosed disease to accepted file
@@ -150,12 +147,6 @@ def main():
     with open(os.path.join(data_dir, rejected_submissions_file), 'w' if start_over else 'a', newline='\n') as f_rejected:
         writer = csv.writer(f_rejected, delimiter='\t')
         for submission in rejected_submissions:
-            writer.writerow(submission)
-
-    # random posts from common subreddit we use as negative examples and save to negative file
-    with open(os.path.join(data_dir, negative_submissions_file), 'w' if start_over else 'a', newline='\n') as f_negative:
-        writer = csv.writer(f_negative, delimiter='\t')
-        for submission in negative_submissions:
             writer.writerow(submission)
 
 
