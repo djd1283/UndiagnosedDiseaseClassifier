@@ -11,7 +11,7 @@ import numpy as np
 accepted_submissions_file = 'data/accepted_submissions.tsv'
 negative_submissions_file = 'data/negative_submissions.tsv'
 rejected_submissions_file = 'data/rejected_submissions.tsv'
-n_features = 3
+n_features = 4
 n_epochs = 1000
 learning_rate = 0.001
 batch_size = 2
@@ -25,7 +25,8 @@ def main():
     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
 
     # load dataset
-    ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file)
+    ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file,
+                                  seed=seed)
     num_train_examples = round(len(ds) * 0.7)
     train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
     print(f'Dataset size: {len(ds)}')
