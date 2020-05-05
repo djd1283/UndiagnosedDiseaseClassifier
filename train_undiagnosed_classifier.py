@@ -11,7 +11,7 @@ import numpy as np
 accepted_submissions_file = 'data/accepted_submissions.tsv'
 negative_submissions_file = 'data/negative_submissions.tsv'
 rejected_submissions_file = 'data/rejected_submissions.tsv'
-n_features = 4
+n_features = 6
 n_epochs = 1000
 learning_rate = 0.001
 batch_size = 2
