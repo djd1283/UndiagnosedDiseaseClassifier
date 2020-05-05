@@ -3,7 +3,7 @@ import csv
 import os
 from tqdm import tqdm
 
-health_subreddits = ['health', 'undiagnosed', 'diagnoseme']  # order of subreddits we search
+health_subreddits = ['diagnoseme', 'health', 'undiagnosed']  # order of subreddits we search
 
 health_subreddit_keywords = \
 {
