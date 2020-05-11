@@ -79,8 +79,8 @@ def main():
                                             seed=seed)
         val_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
                                           seed=seed, equal_accept_rej=True)
-        test_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
-                                           seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+        # test_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
+        #                                    seed=seed, equal_accept_rej=False, max_examples=max_negatives)
         # num_train_examples = round(len(ds) * 0.7)
         # train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
 
@@ -92,9 +92,9 @@ def main():
                                            seed=seed)
 
         # the test set contains a larger number of negative examples (max_negatives) for top-k ranking
-        test_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file,
-                                            rejected_file=val_negative_tweets_file,
-                                            seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+        # test_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file,
+        #                                     rejected_file=val_negative_tweets_file,
+        #                                     seed=seed, equal_accept_rej=False, max_examples=max_negatives)
 
     print(f'Train dataset size: {len(train_ds)}')
     print(f'Validation dataset size: {len(val_ds)}')
@@ -160,7 +160,7 @@ def main():
 
     # TODO produce ranking scores for each example in the test set, write them to files for trec_eval
 
-    produce_files_for_rank_evaluation(test_ds, classifier)
+    # produce_files_for_rank_evaluation(test_ds, classifier)
 
 
 if __name__ == '__main__':

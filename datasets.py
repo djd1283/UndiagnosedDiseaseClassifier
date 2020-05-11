@@ -27,6 +27,8 @@ class TwitterUndiagnosedDataset(Dataset):
         texts = []
         labels = []
 
+        # TODO remove duplicates from data
+
         # we read through the accepted and rejected files and
         n_accepted = 0
         with open(accepted_file, 'r', newline='\n') as f_accepted:
@@ -194,6 +196,9 @@ class UndiagnosedFeatureExtractor:
             udn_bleu = nltk.translate.bleu_score.sentence_bleu(self.udn_examples, text)
 
             udn_features.append(udn_bleu)
+
+        # this line returns a single feature for ablation testing
+        # return np.array(udn_features)[:, np.newaxis]
 
         return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens, texts_have_keywords,
                                  texts_have_doctors, udn_features)))
