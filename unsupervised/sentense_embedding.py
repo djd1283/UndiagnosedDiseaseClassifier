@@ -82,11 +82,11 @@ print(clustering_model4.cluster_centers_)
 centers = [clustering_model1.cluster_centers_[0],clustering_model2.cluster_centers_[0],
             clustering_model3.cluster_centers_[0],clustering_model4.cluster_centers_[0]]
 
-unknown_sentenses_file = "data/tweet_dataset/val_selected.txt"
+unknown_sentenses_file = "data/tweet_dataset/train_texts_negative_clean2.txt"
 unknown_sentenses_file_header = open(unknown_sentenses_file)
 line = unknown_sentenses_file_header.readline()
 
-result_file = "data/tweet_dataset/val_selected_scores.txt"
+result_file = "data/tweet_dataset/train_texts_negative_clean2.txt"
 result_file_header = open(result_file,"w")
 count=0
 while line:
