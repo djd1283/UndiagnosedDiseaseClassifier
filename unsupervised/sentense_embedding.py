@@ -86,7 +86,7 @@ unknown_sentenses_file = "data/tweet_dataset/val_texts_negative_clean2.txt"
 unknown_sentenses_file_header = open(unknown_sentenses_file)
 line = unknown_sentenses_file_header.readline()
 
-result_file = "data/tweet_dataset/val_texts_negative_clean2.txt"
+result_file = "data/tweet_dataset/val_texts_negative_clean2_scores.txt"
 result_file_header = open(result_file,"w")
 count=0
 while line:
