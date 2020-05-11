@@ -9,30 +9,114 @@ from transformers import OpenAIGPTTokenizer, OpenAIGPTLMHeadModel
 from sentence_transformers import SentenceTransformer
 
 
+class TwitterUndiagnosedDataset(Dataset):
+    def __init__(self, extractor, accepted_file, rejected_file, seed=1234, max_examples=None, min_length=4, equal_accept_rej=True):
+        """
+
+        :param accepted_file: contains one tweet per line for each tweet containing an undiagnosed disease
+        :param rejected_file: contains one tweet per line for each tweet which does not contain an undiagnosed disease
+        :param seed: make every run have the same shuffling
+        :param max_examples: do not allow more than this many examples for accepted and rejected each
+        :param min_length: remove all tweets which have a length less than this in tokens
+        :param equal_accept_rej: true if we prune negative examples to have same length as positive examples
+        """
+        super().__init__()
+
+        self.extractor = extractor
+
+        texts = []
+        labels = []
+
+        # we read through the accepted and rejected files and
+        n_accepted = 0
+        with open(accepted_file, 'r', newline='\n') as f_accepted:
+
+            for submission in f_accepted:
+                if len(submission.split()) >= min_length:
+                    if max_examples is None or n_accepted <= max_examples:
+                        n_accepted += 1
+                        texts.append(submission.strip())
+                        labels.append(True)
+                    else:
+                        break
+
+        n_rejected = 0
+        with open(rejected_file, 'r', newline='\n') as f_rejected:
+            for submission in f_rejected:
+                if len(submission.split()) > min_length:
+                    if (not equal_accept_rej or n_rejected < n_accepted) and \
+                            (max_examples is None or n_rejected < max_examples):
+                        n_rejected += 1
+                        texts.append(submission.strip())
+                        labels.append(False)
+                    else:
+                        break  # we only have as many positive examples as negative ones
+
+        print(f'Num accepted {n_accepted}, num rejected {n_rejected}')
+
+        # shuffle examples into random order
+        random.seed(seed)
+        random.shuffle(texts)
+        random.seed(seed)
+        random.shuffle(labels)
+
+        self.texts = texts
+        self.labels = labels
+
+        print('Extracting features')
+        self.features = self.extractor.extract_features(self.texts)
+        print(self.features.shape)
+
+    def __len__(self):
+        return len(self.texts)
+
+    def __getitem__(self, idx):
+        return self.features[idx], self.labels[idx]
+
+
 class RedditUndiagnosedDataset(Dataset):
-    def __init__(self, accepted_file, rejected_file, seed=1234):
+    def __init__(self, extractor, accepted_file, rejected_file, seed=1234, max_examples=None, equal_accept_rej=True,
+                 max_length=256):
         super().__init__()
 
         print('Loading pre-trained models')
-        self.extractor = UndiagnosedFeatureExtractor()
+        self.extractor = extractor
 
         texts = []  # Reddit posts
         labels = []  # True if undiagnosed disease, false otherwise
 
         # we read through the accepted and rejected files and
+        n_accepted = 0
         with open(accepted_file, 'r', newline='\n') as f_accepted:
             reader = csv.reader(f_accepted, delimiter='\t')
             for submission in reader:
                 if len(submission[1]) > 0:
-                    texts.append(submission[0] + ' ' + submission[1])
-                    labels.append(True)
+                    if max_examples is None or n_accepted <= max_examples:
+                        n_accepted += 1
+                        texts.append(submission[0] + ' ' + submission[1])
+                        labels.append(True)
+                    else:
+                        break
 
+        n_rejected = 0
         with open(rejected_file, 'r', newline='\n') as f_rejected:
             reader = csv.reader(f_rejected, delimiter='\t')
             for submission in reader:
                 if len(submission[1]) > 0:
-                    texts.append(submission[0] + ' ' + submission[1])
-                    labels.append(False)
+                    if (max_examples is None or n_rejected < max_examples) and \
+                            (not equal_accept_rej or n_rejected < n_accepted):
+                        n_rejected += 1
+                        texts.append(submission[0] + ' ' + submission[1])
+                        labels.append(False)
+                    else:
+                        break
+
+        print(f'Num accepted {n_accepted}, num rejected {n_rejected}')
+
+        # # prune all texts to 256 tokens
+        # print(f'Max sequence length before prune: {max([len(text.split()) for text in texts])}')
+        # texts = [' '.join(text.split()[:max_length]) for text in texts]
+        # print(f'Max sequence length after prune: {max([len(text.split()) for text in texts])}')
 
         # shuffle examples into random order
         random.seed(seed)
@@ -102,7 +186,7 @@ class UndiagnosedFeatureExtractor:
             texts_have_keywords.append(text_has_keywords)
 
         # DOCTORS FEATURE
-        texts_have_doctors = ['doctors' in text.lower() for text in texts]
+        texts_have_doctors = ['doctor' in text.lower() for text in texts]
 
         # UDN EXAMPLES FEATURE
         udn_features = []
@@ -110,7 +194,6 @@ class UndiagnosedFeatureExtractor:
             udn_bleu = nltk.translate.bleu_score.sentence_bleu(self.udn_examples, text)
 
             udn_features.append(udn_bleu)
-        print(udn_features)
 
         return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens, texts_have_keywords,
                                  texts_have_doctors, udn_features)))
@@ -141,6 +224,7 @@ def gpt_log_prob_score(sentences, model, tokenizer, max_len=256, return_all=Fals
         for sentence in sentences:
             sentence = ' '.join(sentence.split()[:max_len])
             input_ids = torch.tensor(tokenizer.encode(sentence, add_special_tokens=True)).unsqueeze(0).cuda()  # Batch size 1
+            input_ids = input_ids[:, :512]
             outputs = model(input_ids, labels=input_ids)
             loss, logits = outputs[:2]
             losses.append(loss.item())

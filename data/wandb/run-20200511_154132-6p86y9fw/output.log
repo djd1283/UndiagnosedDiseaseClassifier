@@ -1,0 +1,57 @@
+Loading pre-trained models
+Num accepted 29, num rejected 29
+Max sequence length before prune: 2026
+Max sequence length after prune: 256
+Extracting features
+(58, 7)
+Loading pre-trained models
+Num accepted 24, num rejected 24
+Max sequence length before prune: 2194
+Max sequence length after prune: 256
+Extracting features
+(48, 7)
+Loading pre-trained models
+Num accepted 24, num rejected 1000
+Max sequence length before prune: 3008
+Max sequence length after prune: 256
+Extracting features
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (2043 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (651 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (523 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (870 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (928 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (2043 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (595 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (595 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (533 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (2050 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (652 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (524 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (877 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (935 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (2050 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (602 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (602 > 512). Running this sequence through the model will result in indexing errors
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (533 > 512). Running this sequence through the model will result in indexing errors
+/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py:523: UserWarning: 
+The hypothesis contains 0 counts of 4-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py:523: UserWarning: 
+The hypothesis contains 0 counts of 3-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+(1024, 7)
+Train dataset size: 58
+Validation dataset size: 48
+Final train loss: 0.28957744752024783
+Final validation loss: 0.3856905888921271
+Parameter containing:
+tensor([[ 0.7421, -1.6359,  0.1358,  1.2278,  0.1625,  1.8335, -0.3963]],
+       requires_grad=True)
+Parameter containing:
+tensor([0.0728], requires_grad=True)

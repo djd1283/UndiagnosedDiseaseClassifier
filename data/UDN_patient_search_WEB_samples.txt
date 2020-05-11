@@ -1,0 +1,20 @@
+Female, age 1 with brain abnormalities (agenesis of the corpus callosum and arachnoid cyst) and chronic diarrhea caused by a change in the ARX gene (with severity impacted by her diagnosis of mosaic Turner syndrome)
+Female, age 3 with limited joint movement (arthrogryposis) and low muscle tone (hypotonia)
+Male, age 12 with intellectual disability, seizures, brain abnormalities (ventriculomegaly, malrotation of bilateral hippocampi), and bulging, weakened wall of the aortic root (aortic root aneurysm)
+Female, age 26 with a history of global developmental delay, moderate intellectual disability, and autism caused by a change in the SPTBN1 gene
+Male, age 3 with global developmental delay, abnormal muscle tone and movement, and light pigmentation of the hair and skin (hypopigmentation)
+Male, age 7 with global developmental delay, hearing loss, gastrointestinal abnormalities, and absent saliva flow (xerostomia) caused by a change in the SLC12A2 gene
+Male, age 8 with global developmental delay, large head size (macrocephaly), low muscle tone (hypotonia), and seizures
+Female, age 14 with severe intellectual disability, language delay (receptive and expressive language delay), and mild dysmorphic features
+Female, age 4 with seizures and global developmental delay
+Female, age 3 with global developmental delay, failure to thrive, absent speech, and low muscle tone (hypotonia)
+Female, age 43 with itchy skin inflammation (psoriasiform dermatitis), blood clots in veins (thrombophlebitis), and head and joint pain (arthralgia)
+Male, age 14 with gross motor and language delay, borderline intellectual disability, and damage to the optic nerve (optic atrophy)
+Male, age 17 with intellectual disability, history of leukemia, heart abnormalities, and multiple abnormal bone and cartilage growths (osteochondromas)
+Female, age 17 with global developmental delay, seizures, problems with coordination (ataxia), and involuntary muscle contractions (dystonia)
+Female, age 6 with carnitine deficiency, thyroid disease, episodes of brain disease (episodic encephalopathy), problems with coordination (ataxia), and low blood sugar (hypoglycemia)
+Male, age 4 with Roifman syndrome caused by changes in the RNU4ATAC gene
+Male, age 4 with global developmental delay thought to be caused by a genetic change in the FBXO11 gene
+Male, age 24 with seizures, growth hormone deficiency, low levels of pituitary hormones (panhypopituitarism), and low levels of blood cells (pancytopenia)
+Female, age 10 with seizures, eye abnormalities (retinal coloboma, microphthalmia, strabismus) and severe global developmental delay
+Female, age 2 with global developmental delay, brain abnormalities, abnormal head movements, and trembling during precise movement (intention tremor)

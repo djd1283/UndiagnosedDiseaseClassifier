@@ -1,0 +1,16 @@
+Loading pre-trained models
+Extracting features
+(108, 1)
+Dataset size: 108
+Traceback (most recent call last):
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 85, in <module>
+    main()
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 48, in main
+    preds = classifier(x)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 87, in forward
+    return F.linear(input, self.weight, self.bias)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/functional.py", line 1370, in linear
+    ret = torch.addmm(bias, input, weight.t())
+RuntimeError: size mismatch, m1: [2 x 1], m2: [2 x 1] at /pytorch/aten/src/TH/generic/THTensorMath.cpp:136

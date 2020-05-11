@@ -1,0 +1,40 @@
+Loading pre-trained models
+Extracting features
+macrocephaly
+hypotonia
+undiagnosed
+hypotonia
+developmental delay
+myalgia
+undiagnosed
+no diagnosis
+undiagnosed
+myalgia
+undiagnosed
+undiagnosed
+undiagnosed
+myalgia
+no diagnosis
+undiagnosed
+undiagnosed
+undiagnosed
+undiagnosed
+myalgia
+no diagnosis
+undiagnosed
+myalgia
+undiagnosed
+undiagnosed
+undiagnosed
+undiagnosed
+undiagnosed
+slurred speech
+undiagnosed
+undiagnosed
+[False, False, False, False, True, True, False, True, False, False, False, True, False, True, True, True, False, False, False, True, False, False, False, True, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, False, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, True, True, False, True, False, False, False, False, False, True, False, False, True, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, True, True, False, False, False, False, False, False, False, False, False]
+(108, 5)
+Dataset size: 108
+Parameter containing:
+tensor([[ 0.4510, -0.7885, -0.2724,  0.6810,  1.8962]], requires_grad=True)
+Parameter containing:
+tensor([-0.5102], requires_grad=True)

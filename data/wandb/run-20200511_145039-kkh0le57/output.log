@@ -1,0 +1,27 @@
+Extracting features
+/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py:523: UserWarning: 
+The hypothesis contains 0 counts of 4-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+(150, 7)
+Extracting features
+(50, 7)
+Extracting features
+/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py:523: UserWarning: 
+The hypothesis contains 0 counts of 3-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+(1025, 7)
+Train dataset size: 150
+Validation dataset size: 50
+Final train loss: 0.30126552720864613
+Final validation loss: 0.27018783792853357
+Parameter containing:
+tensor([[ 1.4477, -0.7734, -0.6797,  1.1304,  2.9868, -0.1649,  0.7726]],
+       requires_grad=True)
+Parameter containing:
+tensor([-0.3267], requires_grad=True)

@@ -1,0 +1,12 @@
+Loading pre-trained models
+Extracting features
+Traceback (most recent call last):
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 87, in <module>
+    main()
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 28, in main
+    ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 46, in __init__
+    self.features = self.extractor.extract_features(self.texts)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 78, in extract_features
+    for pos_phrase_score, text_score, text_emb in zip(pos_phrase_text_gpt_scores, text_gpt_scores):
+ValueError: not enough values to unpack (expected 3, got 2)

@@ -1,0 +1,14 @@
+Loading pre-trained models
+Extracting features
+Traceback (most recent call last):
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 88, in <module>
+    main()
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 29, in main
+    seed=seed)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 47, in __init__
+    self.features = self.extractor.extract_features(self.texts)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 108, in extract_features
+    udn_feature = nltk.translate.bleu_score.corpus_bleu(self.udn_examples, texts)
+  File "/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py", line 177, in corpus_bleu
+    "The number of hypotheses and their reference(s) should be the " "same "
+AssertionError: The number of hypotheses and their reference(s) should be the same 

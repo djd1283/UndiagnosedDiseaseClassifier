@@ -1,0 +1,21 @@
+diff --git a/datasets.py b/datasets.py
+index 6a2ee1c..0ef9732 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -23,14 +23,14 @@ class RedditUndiagnosedDataset(Dataset):
+             reader = csv.reader(f_accepted, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    texts.append(submission[1])
++                    texts.append(submission[0] + ' ' + submission[1])
+                     labels.append(True)
+ 
+         with open(rejected_file, 'r', newline='\n') as f_rejected:
+             reader = csv.reader(f_rejected, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    texts.append(submission[1])
++                    texts.append(submission[0] + ' ' + submission[1])
+                     labels.append(False)
+ 
+         # shuffle examples into random order

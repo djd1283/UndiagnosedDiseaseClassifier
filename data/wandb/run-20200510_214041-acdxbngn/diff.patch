@@ -1,0 +1,116 @@
+diff --git a/datasets.py b/datasets.py
+index e489cb4..4ff1401 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -9,6 +9,48 @@ from transformers import OpenAIGPTTokenizer, OpenAIGPTLMHeadModel
+ from sentence_transformers import SentenceTransformer
+ 
+ 
++class TwitterUndiagnosedDataset(Dataset):
++    def __init__(self, accepted_file, rejected_file, seed=1234):
++        super().__init__()
++
++        self.extractor = UndiagnosedFeatureExtractor()
++
++        texts = []
++        labels = []
++
++        # we read through the accepted and rejected files and
++        with open(accepted_file, 'r', newline='\n') as f_accepted:
++            for submission in f_accepted:
++                if len(submission) > 0:
++                    texts.append(submission.strip())
++                    labels.append(True)
++
++        with open(rejected_file, 'r', newline='\n') as f_rejected:
++            for submission in f_rejected:
++                if len(submission) > 0:
++                    texts.append(submission.strip())
++                    labels.append(False)
++
++        # shuffle examples into random order
++        random.seed(seed)
++        random.shuffle(texts)
++        random.seed(seed)
++        random.shuffle(labels)
++
++        self.texts = texts
++        self.labels = labels
++
++        print('Extracting features')
++        self.features = self.extractor.extract_features(self.texts)
++        print(self.features.shape)
++
++    def __len__(self):
++        return len(self.texts)
++
++    def __getitem__(self, idx):
++        return self.features[idx], self.labels[idx]
++
++
+ class RedditUndiagnosedDataset(Dataset):
+     def __init__(self, accepted_file, rejected_file, seed=1234):
+         super().__init__()
+@@ -102,7 +144,7 @@ class UndiagnosedFeatureExtractor:
+             texts_have_keywords.append(text_has_keywords)
+ 
+         # DOCTORS FEATURE
+-        texts_have_doctors = ['doctors' in text.lower() for text in texts]
++        texts_have_doctors = ['doctor' in text.lower() for text in texts]
+ 
+         # UDN EXAMPLES FEATURE
+         udn_features = []
+@@ -110,7 +152,6 @@ class UndiagnosedFeatureExtractor:
+             udn_bleu = nltk.translate.bleu_score.sentence_bleu(self.udn_examples, text)
+ 
+             udn_features.append(udn_bleu)
+-        print(udn_features)
+ 
+         return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens, texts_have_keywords,
+                                  texts_have_doctors, udn_features)))
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index ad2c926..e503ef1 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -1,6 +1,6 @@
+ """This script uses the available accepted and rejected submissions labeled by hand to creaete classifier
+ between them."""
+-from datasets import RedditUndiagnosedDataset
++from datasets import RedditUndiagnosedDataset, TwitterUndiagnosedDataset
+ from torch.utils.data import DataLoader, random_split
+ import torch.nn as nn
+ import torch
+@@ -11,6 +11,10 @@ import numpy as np
+ accepted_submissions_file = 'data/accepted_submissions.tsv'
+ negative_submissions_file = 'data/negative_submissions.tsv'
+ rejected_submissions_file = 'data/rejected_submissions.tsv'
++
++accepted_tweets_file = 'data/tweet_dataset/train_texts_clean2_ranked.txt'
++negative_tweets_file = 'data/tweet_dataset/train_texts_negative_clean2.txt'
++
+ n_features = 7
+ n_epochs = 1000
+ learning_rate = 0.001
+@@ -20,13 +24,20 @@ seed = 1234
+ # for predictable experiments
+ torch.random.manual_seed(seed)
+ 
++dataset_name = "reddit"
++
+ 
+ def main():
+     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
+ 
+     # load dataset
+-    ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file,
+-                                  seed=seed)
++    if dataset_name == "reddit":
++        ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file,
++                                      seed=seed)
++    else:
++        ds = TwitterUndiagnosedDataset(accepted_file=accepted_tweets_file, rejected_file=negative_tweets_file,
++                                       seed=seed)
++
+     num_train_examples = round(len(ds) * 0.7)
+     train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
+     print(f'Dataset size: {len(ds)}')

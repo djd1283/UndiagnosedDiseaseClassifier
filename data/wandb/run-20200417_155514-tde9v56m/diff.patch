@@ -1,0 +1,332 @@
+diff --git a/datasets.py b/datasets.py
+index 1550ba1..bfd32a9 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -1,12 +1,20 @@
+ from torch.utils.data import Dataset
+ import csv
+ import random
++import torch
++import math
++import numpy as np
++from transformers import OpenAIGPTTokenizer, OpenAIGPTLMHeadModel
++from sentence_transformers import SentenceTransformer
+ 
+ 
+ class RedditUndiagnosedDataset(Dataset):
+     def __init__(self, accepted_file, rejected_file, seed=1234):
+         super().__init__()
+ 
++        print('Loading pre-trained models')
++        self.extractor = UndiagnosedFeatureExtractor()
++
+         texts = []  # Reddit posts
+         labels = []  # True if undiagnosed disease, false otherwise
+ 
+@@ -14,14 +22,16 @@ class RedditUndiagnosedDataset(Dataset):
+         with open(accepted_file, 'r', newline='\n') as f_accepted:
+             reader = csv.reader(f_accepted, delimiter='\t')
+             for submission in reader:
+-                texts.append(submission)
+-                labels.append(True)
++                if len(submission[1]) > 0:
++                    texts.append(submission[1])
++                    labels.append(True)
+ 
+         with open(rejected_file, 'r', newline='\n') as f_rejected:
+             reader = csv.reader(f_rejected, delimiter='\t')
+             for submission in reader:
+-                texts.append(submission)
+-                labels.append(False)
++                if len(submission[1]) > 0:
++                    texts.append(submission[1])
++                    labels.append(False)
+ 
+         # shuffle examples into random order
+         random.seed(seed)
+@@ -32,11 +42,69 @@ class RedditUndiagnosedDataset(Dataset):
+         self.texts = texts
+         self.labels = labels
+ 
++        print('Extracting features')
++        self.features = self.extractor.extract_features(self.texts)
++        print(self.features.shape)
++
+     def __len__(self):
+         return len(self.texts)
+ 
+     def __getitem__(self, idx):
+-        return self.texts[idx], self.labels[idx]
++        return self.features[idx], self.labels[idx]
++
++
++class UndiagnosedFeatureExtractor:
++    def __init__(self):
++        self.tokenizer = OpenAIGPTTokenizer.from_pretrained('openai-gpt')
++        self.gpt = OpenAIGPTLMHeadModel.from_pretrained('openai-gpt').cuda()
++        self.embedder = SentenceTransformer('bert-base-nli-mean-tokens')
++        self.phrase = "I have an undiagnosed disease. "
++        self.phrase_gpt_score = gpt_log_prob_score([self.phrase], self.gpt, self.tokenizer)
++
++    def extract_features(self, texts):
++        # TODO fix problem that GPT loss values are normalized for sequence length
++        text_gpt_scores = gpt_log_prob_score(texts, self.gpt, self.tokenizer, return_all=True)
++        phrase_and_texts = [self.phrase + text for text in texts]
++        phrase_text_gpt_scores = gpt_log_prob_score(phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
++        phrase_text_mmis = []
++        for text_score, phrase_text_score in zip(text_gpt_scores, phrase_text_gpt_scores):
++            # negate loss for log probability
++            phrase_text_mmi = -phrase_text_score + text_score + self.phrase_gpt_score
++            phrase_text_mmis.append(phrase_text_mmi)
++        text_lens = [math.log(len(text.split())) for text in texts]
++
++        return np.array(list(zip(phrase_text_mmis)))
++
++
++def sentence_bert_score(r1, r2, embedder):
++    with torch.no_grad():
++        r1_embs = embedder.encode(r1)
++        r2_embs = embedder.encode(r2)
++
++        bert_scores = []
++        for r1_emb, r2_emb in zip(r1_embs, r2_embs):
++            bert_score = np.dot(r1_emb, r2_emb) / np.linalg.norm(r1_emb) / np.linalg.norm(r2_emb)
++            bert_scores.append(bert_score)
++
++    return np.mean(bert_scores)
++
++
++def gpt_log_prob_score(sentences, model, tokenizer, max_len=256, return_all=False):
++    """Calculate the loss value of predicted sentences under a GPT model as a measure of fluency."""
++
++    with torch.no_grad():
++        losses = []
++        for sentence in sentences:
++            sentence = ' '.join(sentence.split()[:max_len])
++            input_ids = torch.tensor(tokenizer.encode(sentence, add_special_tokens=True)).unsqueeze(0).cuda()  # Batch size 1
++            outputs = model(input_ids, labels=input_ids)
++            loss, logits = outputs[:2]
++            losses.append(loss.item())
++
++    if return_all:
++        return losses
++    else:
++        return np.mean(losses)
+ 
+ 
+ 
+diff --git a/filter_reddit_data.py b/filter_reddit_data.py
+index 92c5a2c..284af9b 100644
+--- a/filter_reddit_data.py
++++ b/filter_reddit_data.py
+@@ -23,7 +23,6 @@ neg_posts_multiplier = 10
+ data_dir = 'data/'
+ accepted_submissions_file = 'accepted_submissions.tsv'
+ rejected_submissions_file = 'rejected_submissions.tsv'
+-negative_submissions_file = 'negative_submissions.tsv'
+ titles_file = 'submission_titles.txt'
+ start_over = False
+ 
+@@ -99,9 +98,7 @@ def load_credentials():
+     return creds
+ 
+ 
+-def generate_negative_posts(n_posts):
+-    # TODO find regular posts from popular subreddits as negative examples for training a classifier
+-    return []
++
+ 
+ 
+ def main():
+@@ -128,7 +125,7 @@ def main():
+ 
+     accepted_submissions, rejected_submissions = annotate_undiagnosed_reddit_posts(reddit, ignored_titles=ignored_titles)
+ 
+-    negative_submissions = generate_negative_posts(len(accepted_submissions) * neg_posts_multiplier)
++    # negative_submissions = generate_negative_posts(len(accepted_submissions) * neg_posts_multiplier)
+ 
+     if len(accepted_submissions) > 0:
+         print(accepted_submissions[0][0])
+@@ -137,7 +134,7 @@ def main():
+ 
+     # here we write titles to check for duplicates
+     with open(os.path.join(data_dir, titles_file), 'w' if start_over else 'a') as f_titles:
+-        for submission in (accepted_submissions + rejected_submissions + negative_submissions):
++        for submission in (accepted_submissions + rejected_submissions):
+             f_titles.write(submission[0] + '\n')
+ 
+     # we write posts annotated as undiagnosed disease to accepted file
+@@ -152,12 +149,6 @@ def main():
+         for submission in rejected_submissions:
+             writer.writerow(submission)
+ 
+-    # random posts from common subreddit we use as negative examples and save to negative file
+-    with open(os.path.join(data_dir, negative_submissions_file), 'w' if start_over else 'a', newline='\n') as f_negative:
+-        writer = csv.writer(f_negative, delimiter='\t')
+-        for submission in negative_submissions:
+-            writer.writerow(submission)
+-
+ 
+ if __name__ == '__main__':
+     main()
+\ No newline at end of file
+diff --git a/get_random_submissions.py b/get_random_submissions.py
+new file mode 100644
+index 0000000..8adfa4a
+--- /dev/null
++++ b/get_random_submissions.py
+@@ -0,0 +1,59 @@
++"""Get random submissions from Reddit as negative examples for classifier."""
++import os
++import csv
++import praw
++from filter_reddit_data import load_credentials
++from tqdm import tqdm
++
++
++data_dir = 'data/'
++negative_submissions_file = 'negative_submissions.tsv'
++accepted_submissions_file = 'accepted_submissions.tsv'
++
++
++def generate_negative_posts(reddit, n_posts):
++    # TODO find regular posts from popular subreddits as negative examples for training a classifier
++
++    negative_posts = []
++
++    bar = tqdm(total=n_posts)
++
++    while True:
++        random_submissions = reddit.subreddit('all').random_rising(limit=n_posts)
++        random_submissions = [submission for submission in random_submissions]
++        for submission in random_submissions:
++            title = submission.title
++            text = ' '.join(submission.selftext.split())
++            subreddit = submission.subreddit
++            if len(text) > 0:
++                negative_posts.append([title, text, subreddit])
++                bar.update()
++                if len(negative_posts) >= n_posts:
++                    return negative_posts
++
++
++def main():
++
++    creds = load_credentials()
++
++    reddit = praw.Reddit(client_id=creds['client'],
++                         client_secret=creds['secret'],
++                         user_agent=creds['agent'])
++
++    # we generate the same number of negative examples as positive examples
++    n_posts = sum([1 for line in open(os.path.join(data_dir, accepted_submissions_file), 'r')])
++    print(f'Number of negative submissions: {n_posts}')
++
++    negative_submissions = generate_negative_posts(reddit, n_posts)
++
++    # random posts from common subreddit we use as negative examples and save to negative file
++    with open(os.path.join(data_dir, negative_submissions_file), 'w', newline='\n') as f_negative:
++        writer = csv.writer(f_negative, delimiter='\t')
++        for submission in negative_submissions:
++            writer.writerow(submission)
++
++
++if __name__ == '__main__':
++    main()
++
++
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index e0252cb..a25afb4 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -1,10 +1,87 @@
+ """This script uses the available accepted and rejected submissions labeled by hand to creaete classifier
+ between them."""
++from datasets import RedditUndiagnosedDataset
++from torch.utils.data import DataLoader, random_split
++import torch.nn as nn
++import torch
++import wandb
++import numpy as np
++
++
++accepted_submissions_file = 'data/accepted_submissions.tsv'
++negative_submissions_file = 'data/negative_submissions.tsv'
++rejected_submissions_file = 'data/rejected_submissions.tsv'
++n_features = 2
++n_epochs = 1000
++learning_rate = 0.001
++batch_size = 2
+ 
+ 
+ def main():
+-    pass
++    wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
++
++    # load dataset
++    ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file)
++    num_train_examples = round(len(ds) * 0.7)
++    train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
++    print(f'Dataset size: {len(ds)}')
++    # load models required
++    classifier = nn.Linear(n_features, 1)
++    # load optimizer
++    optimizer = torch.optim.SGD(classifier.parameters(), lr=learning_rate)
++    bce = nn.BCEWithLogitsLoss()
++    # create dataloader
++    train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
++    val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
++
++    # run through examples
++
++    for epoch_idx in range(n_epochs):
++        train_losses = []
++        train_accuracies = []
++        for batch in train_dl:
++            # train on examples
++            x = batch[0].float()
++            y = batch[1].float().unsqueeze(1)
++
++            optimizer.zero_grad()
++            preds = classifier(x)
++            loss = bce(preds, y)
++            loss.backward()
++            optimizer.step()
++
++            acc = ((preds > 0).float() == y).float().mean()
++            train_accuracies.append(acc)
++
++            train_losses.append(loss.item())
++
++        val_losses = []
++        val_accuracies = []
++        for batch in val_dl:
++            with torch.no_grad():
++                x = batch[0].float()
++                y = batch[1].float().unsqueeze(1)
++
++                preds = classifier(x)
++                loss = bce(preds, y)
++                val_losses.append(loss.item())
++
++                acc = ((preds > 0).float() == y).float().mean()
++                val_accuracies.append(acc)
++
++        wandb.log({'train loss': np.mean(train_losses), 'val loss': np.mean(val_losses),
++                   'train accuracy': np.mean(train_accuracies), 'val accuracy': np.mean(val_accuracies)})
++
++
++
++    print(classifier.weight)
++    print(classifier.bias)
++
++
++    # evaluate accuracy on validation set
+ 
+ 
+ if __name__ == '__main__':
+-    main()
+\ No newline at end of file
++    main()
++
++

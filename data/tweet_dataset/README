@@ -1,0 +1,8 @@
+train_selected.txt  #this file contains manually seleted positive tweets for training
+val_selected.txt  #this file contains manually seleted positive tweets for validation
+
+train_texts_clean2_ranked.txt #this file contains tweets collected with the medical terms for training
+val_texts_clean2_ranked.txt  #this file contains tweets collected with the medical terms for validation
+
+train_texts_negative_clean2.txt #this file contains negative UD tweets for training
+val_texts_negative_clean2.txt #this file contains negative UD tweets for validation
