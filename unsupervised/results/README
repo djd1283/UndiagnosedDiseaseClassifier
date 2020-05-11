@@ -1,0 +1,3 @@
+The file "texts_clean2_ranked.txt" contains the ranked twitter items.
+The file "texts_clean2_ranked_score.txt" contains the ranked score for each item in "texts_clean2_ranked.txt".
+The file "texts_clean2_ranked_eval.txt" is the manually evaluation of the first 230 items in "texts_clean2_ranked.txt", in which "True" means positive, "False" means negative and "Skip" means duplicate item.
