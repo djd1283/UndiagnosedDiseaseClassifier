@@ -1,0 +1,70 @@
+diff --git a/datasets.py b/datasets.py
+index 6a2ee1c..4f345ee 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -23,14 +23,14 @@ class RedditUndiagnosedDataset(Dataset):
+             reader = csv.reader(f_accepted, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    texts.append(submission[1])
++                    texts.append(submission[0] + ' ' + submission[1])
+                     labels.append(True)
+ 
+         with open(rejected_file, 'r', newline='\n') as f_rejected:
+             reader = csv.reader(f_rejected, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    texts.append(submission[1])
++                    texts.append(submission[0] + ' ' + submission[1])
+                     labels.append(False)
+ 
+         # shuffle examples into random order
+@@ -59,18 +59,18 @@ class UndiagnosedFeatureExtractor:
+         self.gpt = OpenAIGPTLMHeadModel.from_pretrained('openai-gpt').cuda()
+         self.embedder = SentenceTransformer('bert-base-nli-mean-tokens').cuda()
+         self.pos_phrase = "I have an undiagnosed disease. "
+-        self.neg_phrase = ""
++        self.keywords = [term.strip().lower() for term in open('tweet_crawler/terms.txt').read().split('\n')]
+         # self.phrase_gpt_score = gpt_log_prob_score([self.phrase], self.gpt, self.tokenizer)
+         self.pos_phrase_emb = self.embedder.encode([self.pos_phrase])[0]
+ 
+     def extract_features(self, texts):
+-        # TODO fix problem that GPT loss values are normalized for sequence length
+-        text_gpt_scores = gpt_log_prob_score(texts, self.gpt, self.tokenizer, return_all=True)
+-        pos_phrase_and_texts = [text + self.pos_phrase for text in texts]
+-        # neg_phrase_and_texts = [self.neg_phrase + text for text in texts]
+ 
++        # SBERT SIMILARITY FEATURE
+         sbert_scores = sentence_bert_score(texts, [self.pos_phrase] * len(texts), self.embedder, return_all=True)
+ 
++        # GPT LOG PROBABILITY FEATURES
++        text_gpt_scores = gpt_log_prob_score(texts, self.gpt, self.tokenizer, return_all=True)
++        pos_phrase_and_texts = [text + self.pos_phrase for text in texts]
+         pos_phrase_text_gpt_scores = gpt_log_prob_score(pos_phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
+         # neg_phrase_text_gpt_scores = gpt_log_prob_score(neg_phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
+ 
+@@ -80,9 +80,23 @@ class UndiagnosedFeatureExtractor:
+             phrase_text_mmi = (pos_phrase_score - text_score) / text_score
+             phrase_text_mmis.append(phrase_text_mmi)
+ 
++        # TEXT LENGTH FEATURE
+         text_lens = [math.log(len(text.split())) for text in texts]
+ 
+-        return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens)))
++        # KEYWORD FEATURE
++        texts_have_keywords = []
++        for text in texts:
++            text_has_keywords = False
++            text_lower = text.lower()
++            for keyword in self.keywords:
++                if keyword in text_lower:
++                    text_has_keywords = True
++
++            texts_have_keywords.append(text_has_keywords)
++
++        print(texts_have_keywords)
++
++        return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens, texts_have_keywords)))
+ 
+ 
+ def sentence_bert_score(r1, r2, embedder, return_all=False):

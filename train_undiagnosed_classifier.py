@@ -1,6 +1,6 @@
 """This script uses the available accepted and rejected submissions labeled by hand to creaete classifier
 between them."""
-from datasets import RedditUndiagnosedDataset, TwitterUndiagnosedDataset
+from datasets import RedditUndiagnosedDataset, TwitterUndiagnosedDataset, UndiagnosedFeatureExtractor
 from torch.utils.data import DataLoader, random_split
 import torch.nn as nn
 import torch
@@ -8,9 +8,13 @@ import wandb
 import numpy as np
 
 
-accepted_submissions_file = 'data/accepted_submissions.tsv'
-negative_submissions_file = 'data/negative_submissions.tsv'
-rejected_submissions_file = 'data/rejected_submissions.tsv'
+# accepted_submissions_file = 'data/accepted_submissions.tsv'
+# negative_submissions_file = 'data/negative_submissions.tsv'
+# rejected_submissions_file = 'data/rejected_submissions.tsv'
+train_accepted_reddit_file = 'data/train_accepted.tsv'
+train_negative_reddit_file = 'data/train_negative.tsv'
+val_accepted_reddit_file = 'data/val_accepted.tsv'
+val_negative_reddit_file = 'data/val_negative.tsv'
 
 train_accepted_tweets_file = 'data/tweet_dataset/train_selected.txt'
 train_negative_tweets_file = 'data/tweet_dataset/train_texts_negative_clean2.txt'
@@ -25,7 +29,7 @@ n_epochs = 1000
 learning_rate = 0.001
 batch_size = 2
 seed = 1234
-max_negatives = 100
+max_negatives = 1000
 
 # for predictable experiments
 torch.random.manual_seed(seed)
@@ -64,27 +68,31 @@ def produce_files_for_rank_evaluation(test_ds, classifier):
                     f_scores.write(f'Q1046 0 {i} - {score} standard\n')
 
 
-
-
-
-
 def main():
     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
 
+    extractor = UndiagnosedFeatureExtractor()
+
     # load dataset
     if dataset_name == "reddit":
-        ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file,
-                                      seed=seed)
-        num_train_examples = round(len(ds) * 0.7)
-        train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
+        train_ds = RedditUndiagnosedDataset(extractor, accepted_file=train_accepted_reddit_file, rejected_file=train_negative_reddit_file,
+                                            seed=seed)
+        val_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
+                                          seed=seed, equal_accept_rej=True)
+        test_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
+                                           seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+        # num_train_examples = round(len(ds) * 0.7)
+        # train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
+
+
     else:
-        train_ds = TwitterUndiagnosedDataset(accepted_file=train_accepted_tweets_file, rejected_file=train_negative_tweets_file,
+        train_ds = TwitterUndiagnosedDataset(extractor, accepted_file=train_accepted_tweets_file, rejected_file=train_negative_tweets_file,
                                              seed=seed)
-        val_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
+        val_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
                                            seed=seed)
 
         # the test set contains a larger number of negative examples (max_negatives) for top-k ranking
-        test_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file,
+        test_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file,
                                             rejected_file=val_negative_tweets_file,
                                             seed=seed, equal_accept_rej=False, max_examples=max_negatives)
 
@@ -98,10 +106,6 @@ def main():
     # create dataloader
     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
-
-    # here we perform evaluation without training to test
-    produce_files_for_rank_evaluation(test_ds, classifier)
-    exit()
 
     # run through examples
 
@@ -140,6 +144,12 @@ def main():
 
         wandb.log({'train loss': np.mean(train_losses), 'val loss': np.mean(val_losses),
                    'train accuracy': np.mean(train_accuracies), 'val accuracy': np.mean(val_accuracies)})
+
+    print(f'Final train loss: {np.mean(train_losses)}')
+    print(f'Final validation loss: {np.mean(val_losses)}')
+    print(f'Final train accuracy: {np.mean(train_accuracies)}')
+    print(f'Final validation accuracy: {np.mean(val_accuracies)}')
+
 
     print(classifier.weight)
     print(classifier.bias)

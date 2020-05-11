@@ -1,0 +1,25 @@
+{
+    "root": "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier",
+    "program": "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py",
+    "git": {
+        "remote": "https://github.com/djd1283/UndiagnosedDiseaseClassifier.git",
+        "commit": "6acd0ad0d5136d274d55a764cd07e19ea72f325d"
+    },
+    "email": "djd1283@gmail.com",
+    "startedAt": "2020-04-24T14:59:03.311797",
+    "host": "david-Legion",
+    "username": "david",
+    "executable": "/home/david/dl/bin/python",
+    "os": "Linux-5.3.0-46-generic-x86_64-with-Ubuntu-19.10-eoan",
+    "python": "3.7.5rc1",
+    "gpu": "GeForce RTX 2060",
+    "gpu_count": 1,
+    "cpu_count": 8,
+    "args": [],
+    "state": "finished",
+    "jobType": null,
+    "mode": "run",
+    "project": "undiagnosed_classifer",
+    "heartbeatAt": "2020-04-24T14:59:36.751508",
+    "exitcode": 0
+}

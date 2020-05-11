@@ -1,0 +1,42 @@
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index fc05131..af68341 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -30,6 +30,24 @@ torch.random.manual_seed(seed)
+ dataset_name = "twitter"
+ 
+ 
++def produce_files_for_rank_evaluation(test_ds, classifier):
++    """The goal of this function is to produce ranking scores for all examples in the test dataset
++    along with labels as to whether or not they contain an undiagnosed disease. Then save the labels and
++    scores to different files according to trec_eval and use trec_eval to evaluate"""
++
++    test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
++
++    ranking_scores = []
++    labels = []
++    
++    for batch in test_dl:
++        # train on examples
++        x = batch[0].float()
++        y = batch[1].float().unsqueeze(1)
++        preds = classifier(x)
++        import pdb; pdb.set_trace()
++
++
+ def main():
+     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
+ 
+@@ -105,10 +123,10 @@ def main():
+     test_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
+                                         seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+ 
+-    test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
+-
+     # TODO produce ranking scores for each example in the test set, write them to files for trec_eval
+ 
++    produce_files_for_rank_evaluation(test_ds, classifier)
++
+ 
+ if __name__ == '__main__':
+     main()

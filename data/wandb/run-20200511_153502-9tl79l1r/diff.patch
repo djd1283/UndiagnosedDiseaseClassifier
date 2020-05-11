@@ -1,0 +1,232 @@
+diff --git a/datasets.py b/datasets.py
+index 88aad4d..24c9afa 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -10,7 +10,7 @@ from sentence_transformers import SentenceTransformer
+ 
+ 
+ class TwitterUndiagnosedDataset(Dataset):
+-    def __init__(self, accepted_file, rejected_file, seed=1234, max_examples=None, min_length=4, equal_accept_rej=True):
++    def __init__(self, extractor, accepted_file, rejected_file, seed=1234, max_examples=None, min_length=4, equal_accept_rej=True):
+         """
+ 
+         :param accepted_file: contains one tweet per line for each tweet containing an undiagnosed disease
+@@ -22,7 +22,7 @@ class TwitterUndiagnosedDataset(Dataset):
+         """
+         super().__init__()
+ 
+-        self.extractor = UndiagnosedFeatureExtractor()
++        self.extractor = extractor
+ 
+         texts = []
+         labels = []
+@@ -44,15 +44,16 @@ class TwitterUndiagnosedDataset(Dataset):
+         with open(rejected_file, 'r', newline='\n') as f_rejected:
+             for submission in f_rejected:
+                 if len(submission.split()) > min_length:
+-                    n_rejected += 1
+-                    if (not equal_accept_rej or n_rejected <= n_accepted) and \
+-                            (max_examples is None or n_rejected <= max_examples):
+-
++                    if (not equal_accept_rej or n_rejected < n_accepted) and \
++                            (max_examples is None or n_rejected < max_examples):
++                        n_rejected += 1
+                         texts.append(submission.strip())
+                         labels.append(False)
+                     else:
+                         break  # we only have as many positive examples as negative ones
+ 
++        print(f'Num accepted {n_accepted}, num rejected {n_rejected}')
++
+         # shuffle examples into random order
+         random.seed(seed)
+         random.shuffle(texts)
+@@ -62,8 +63,6 @@ class TwitterUndiagnosedDataset(Dataset):
+         self.texts = texts
+         self.labels = labels
+ 
+-        print(self.texts)
+-
+         print('Extracting features')
+         self.features = self.extractor.extract_features(self.texts)
+         print(self.features.shape)
+@@ -76,11 +75,11 @@ class TwitterUndiagnosedDataset(Dataset):
+ 
+ 
+ class RedditUndiagnosedDataset(Dataset):
+-    def __init__(self, accepted_file, rejected_file, seed=1234):
++    def __init__(self, extractor, accepted_file, rejected_file, seed=1234, max_examples=None, equal_accept_rej=True):
+         super().__init__()
+ 
+         print('Loading pre-trained models')
+-        self.extractor = UndiagnosedFeatureExtractor()
++        self.extractor = extractor
+ 
+         texts = []  # Reddit posts
+         labels = []  # True if undiagnosed disease, false otherwise
+@@ -91,17 +90,27 @@ class RedditUndiagnosedDataset(Dataset):
+             reader = csv.reader(f_accepted, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    n_accepted += 1
+-                    texts.append(submission[0] + ' ' + submission[1])
+-                    labels.append(True)
++                    if max_examples is None or n_accepted <= max_examples:
++                        n_accepted += 1
++                        texts.append(submission[0] + ' ' + submission[1])
++                        labels.append(True)
++                    else:
++                        break
+ 
+         n_rejected = 0
+         with open(rejected_file, 'r', newline='\n') as f_rejected:
+             reader = csv.reader(f_rejected, delimiter='\t')
+             for submission in reader:
+                 if len(submission[1]) > 0:
+-                    texts.append(submission[0] + ' ' + submission[1])
+-                    labels.append(False)
++                    if (max_examples is None or n_rejected < max_examples) and \
++                            (not equal_accept_rej or n_rejected < n_accepted):
++                        n_rejected += 1
++                        texts.append(submission[0] + ' ' + submission[1])
++                        labels.append(False)
++                    else:
++                        break
++
++        print(f'Num accepted {n_accepted}, num rejected {n_rejected}')
+ 
+         # shuffle examples into random order
+         random.seed(seed)
+diff --git a/get_random_submissions.py b/get_random_submissions.py
+index 8adfa4a..860abaf 100644
+--- a/get_random_submissions.py
++++ b/get_random_submissions.py
+@@ -33,6 +33,7 @@ def generate_negative_posts(reddit, n_posts):
+ 
+ 
+ def main():
++    n_posts = 2000
+ 
+     creds = load_credentials()
+ 
+@@ -40,8 +41,10 @@ def main():
+                          client_secret=creds['secret'],
+                          user_agent=creds['agent'])
+ 
+-    # we generate the same number of negative examples as positive examples
+-    n_posts = sum([1 for line in open(os.path.join(data_dir, accepted_submissions_file), 'r')])
++    # we generate the same number of negative examples as positive examples if n_posts is not specified
++    if n_posts is None:
++        n_posts = sum([1 for line in open(os.path.join(data_dir, accepted_submissions_file), 'r')])
++
+     print(f'Number of negative submissions: {n_posts}')
+ 
+     negative_submissions = generate_negative_posts(reddit, n_posts)
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index f65c8a5..b9d35e4 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -1,6 +1,6 @@
+ """This script uses the available accepted and rejected submissions labeled by hand to creaete classifier
+ between them."""
+-from datasets import RedditUndiagnosedDataset, TwitterUndiagnosedDataset
++from datasets import RedditUndiagnosedDataset, TwitterUndiagnosedDataset, UndiagnosedFeatureExtractor
+ from torch.utils.data import DataLoader, random_split
+ import torch.nn as nn
+ import torch
+@@ -8,9 +8,13 @@ import wandb
+ import numpy as np
+ 
+ 
+-accepted_submissions_file = 'data/accepted_submissions.tsv'
+-negative_submissions_file = 'data/negative_submissions.tsv'
+-rejected_submissions_file = 'data/rejected_submissions.tsv'
++# accepted_submissions_file = 'data/accepted_submissions.tsv'
++# negative_submissions_file = 'data/negative_submissions.tsv'
++# rejected_submissions_file = 'data/rejected_submissions.tsv'
++train_accepted_reddit_file = 'data/train_accepted.tsv'
++train_negative_reddit_file = 'data/train_negative.tsv'
++val_accepted_reddit_file = 'data/val_accepted.tsv'
++val_negative_reddit_file = 'data/val_negative.tsv'
+ 
+ train_accepted_tweets_file = 'data/tweet_dataset/train_selected.txt'
+ train_negative_tweets_file = 'data/tweet_dataset/train_texts_negative_clean2.txt'
+@@ -25,12 +29,12 @@ n_epochs = 1000
+ learning_rate = 0.001
+ batch_size = 2
+ seed = 1234
+-max_negatives = 100
++max_negatives = 1000
+ 
+ # for predictable experiments
+ torch.random.manual_seed(seed)
+ 
+-dataset_name = "twitter"
++dataset_name = "reddit"
+ 
+ 
+ def produce_files_for_rank_evaluation(test_ds, classifier):
+@@ -64,27 +68,31 @@ def produce_files_for_rank_evaluation(test_ds, classifier):
+                     f_scores.write(f'Q1046 0 {i} - {score} standard\n')
+ 
+ 
+-
+-
+-
+-
+ def main():
+     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
+ 
++    extractor = UndiagnosedFeatureExtractor()
++
+     # load dataset
+     if dataset_name == "reddit":
+-        ds = RedditUndiagnosedDataset(accepted_file=accepted_submissions_file, rejected_file=negative_submissions_file,
+-                                      seed=seed)
+-        num_train_examples = round(len(ds) * 0.7)
+-        train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
++        train_ds = RedditUndiagnosedDataset(extractor, accepted_file=train_accepted_reddit_file, rejected_file=train_negative_reddit_file,
++                                            seed=seed)
++        val_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
++                                          seed=seed, equal_accept_rej=True)
++        test_ds = RedditUndiagnosedDataset(extractor, accepted_file=val_accepted_reddit_file, rejected_file=val_negative_reddit_file,
++                                           seed=seed, equal_accept_rej=False, max_examples=max_negatives)
++        # num_train_examples = round(len(ds) * 0.7)
++        # train_ds, val_ds = random_split(ds, [num_train_examples, len(ds) - num_train_examples])
++
++
+     else:
+-        train_ds = TwitterUndiagnosedDataset(accepted_file=train_accepted_tweets_file, rejected_file=train_negative_tweets_file,
++        train_ds = TwitterUndiagnosedDataset(extractor, accepted_file=train_accepted_tweets_file, rejected_file=train_negative_tweets_file,
+                                              seed=seed)
+-        val_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
++        val_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
+                                            seed=seed)
+ 
+         # the test set contains a larger number of negative examples (max_negatives) for top-k ranking
+-        test_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file,
++        test_ds = TwitterUndiagnosedDataset(extractor, accepted_file=val_accepted_tweets_file,
+                                             rejected_file=val_negative_tweets_file,
+                                             seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+ 
+@@ -99,10 +107,6 @@ def main():
+     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+     val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+ 
+-    # here we perform evaluation without training to test
+-    produce_files_for_rank_evaluation(test_ds, classifier)
+-    exit()
+-
+     # run through examples
+ 
+     for epoch_idx in range(n_epochs):
+@@ -141,6 +145,9 @@ def main():
+         wandb.log({'train loss': np.mean(train_losses), 'val loss': np.mean(val_losses),
+                    'train accuracy': np.mean(train_accuracies), 'val accuracy': np.mean(val_accuracies)})
+ 
++    print(f'Final train loss: {np.mean(train_losses)}')
++    print(f'Final validation loss: {np.mean(val_losses)}')
++
+     print(classifier.weight)
+     print(classifier.bias)
+ 

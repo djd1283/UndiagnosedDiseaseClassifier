@@ -1,0 +1,58 @@
+diff --git a/datasets.py b/datasets.py
+index 88aad4d..25649e1 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -62,8 +62,6 @@ class TwitterUndiagnosedDataset(Dataset):
+         self.texts = texts
+         self.labels = labels
+ 
+-        print(self.texts)
+-
+         print('Extracting features')
+         self.features = self.extractor.extract_features(self.texts)
+         print(self.features.shape)
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index f65c8a5..279ac1d 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -25,7 +25,7 @@ n_epochs = 1000
+ learning_rate = 0.001
+ batch_size = 2
+ seed = 1234
+-max_negatives = 100
++max_negatives = 1000
+ 
+ # for predictable experiments
+ torch.random.manual_seed(seed)
+@@ -64,10 +64,6 @@ def produce_files_for_rank_evaluation(test_ds, classifier):
+                     f_scores.write(f'Q1046 0 {i} - {score} standard\n')
+ 
+ 
+-
+-
+-
+-
+ def main():
+     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
+ 
+@@ -99,10 +95,6 @@ def main():
+     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+     val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+ 
+-    # here we perform evaluation without training to test
+-    produce_files_for_rank_evaluation(test_ds, classifier)
+-    exit()
+-
+     # run through examples
+ 
+     for epoch_idx in range(n_epochs):
+@@ -141,6 +133,9 @@ def main():
+         wandb.log({'train loss': np.mean(train_losses), 'val loss': np.mean(val_losses),
+                    'train accuracy': np.mean(train_accuracies), 'val accuracy': np.mean(val_accuracies)})
+ 
++    print(f'Final train loss: {np.mean(train_losses)}')
++    print(f'Final validation loss: {np.mean(val_losses)}')
++
+     print(classifier.weight)
+     print(classifier.bias)
+ 

@@ -1,0 +1,25 @@
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index f65c8a5..d56c6d2 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -64,10 +64,6 @@ def produce_files_for_rank_evaluation(test_ds, classifier):
+                     f_scores.write(f'Q1046 0 {i} - {score} standard\n')
+ 
+ 
+-
+-
+-
+-
+ def main():
+     wandb.init(project='undiagnosed_classifer', allow_val_change=True, dir='data/')
+ 
+@@ -140,6 +136,9 @@ def main():
+ 
+         wandb.log({'train loss': np.mean(train_losses), 'val loss': np.mean(val_losses),
+                    'train accuracy': np.mean(train_accuracies), 'val accuracy': np.mean(val_accuracies)})
++    
++    print(f'Final train loss: {np.mean(train_losses)}')
++    print(f'Final validation loss: {np.mean(val_losses)}')
+ 
+     print(classifier.weight)
+     print(classifier.bias)

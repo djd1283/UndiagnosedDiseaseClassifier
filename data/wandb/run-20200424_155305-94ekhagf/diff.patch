@@ -1,0 +1,13 @@
+diff --git a/filter_reddit_data.py b/filter_reddit_data.py
+index 284af9b..8be5ad4 100644
+--- a/filter_reddit_data.py
++++ b/filter_reddit_data.py
+@@ -3,7 +3,7 @@ import csv
+ import os
+ from tqdm import tqdm
+ 
+-health_subreddits = ['health', 'undiagnosed', 'diagnoseme']  # order of subreddits we search
++health_subreddits = ['diagnoseme', 'health', 'undiagnosed']  # order of subreddits we search
+ 
+ health_subreddit_keywords = \
+ {

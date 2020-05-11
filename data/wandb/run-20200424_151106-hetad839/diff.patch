@@ -1,0 +1,53 @@
+diff --git a/datasets.py b/datasets.py
+index 1ea3685..0051c2c 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -58,22 +58,28 @@ class UndiagnosedFeatureExtractor:
+         self.tokenizer = OpenAIGPTTokenizer.from_pretrained('openai-gpt')
+         self.gpt = OpenAIGPTLMHeadModel.from_pretrained('openai-gpt').cuda()
+         self.embedder = SentenceTransformer('bert-base-nli-mean-tokens')
+-        self.phrase = "I have an undiagnosed disease. "
+-        self.phrase_gpt_score = gpt_log_prob_score([self.phrase], self.gpt, self.tokenizer)
++        self.pos_phrase = "I have an undiagnosed disease. "
++        self.neg_phrase = ""
++        # self.phrase_gpt_score = gpt_log_prob_score([self.phrase], self.gpt, self.tokenizer)
++
+ 
+     def extract_features(self, texts):
+         # TODO fix problem that GPT loss values are normalized for sequence length
+         text_gpt_scores = gpt_log_prob_score(texts, self.gpt, self.tokenizer, return_all=True)
+-        phrase_and_texts = [self.phrase + text for text in texts]
+-        phrase_text_gpt_scores = gpt_log_prob_score(phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
++        pos_phrase_and_texts = [text + self.pos_phrase for text in texts]
++        # neg_phrase_and_texts = [self.neg_phrase + text for text in texts]
++
++        pos_phrase_text_gpt_scores = gpt_log_prob_score(pos_phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
++        # neg_phrase_text_gpt_scores = gpt_log_prob_score(neg_phrase_and_texts, self.gpt, self.tokenizer, return_all=True)
++
+         phrase_text_mmis = []
+-        for text_score, phrase_text_score in zip(text_gpt_scores, phrase_text_gpt_scores):
++        for pos_phrase_score, text_score in zip(pos_phrase_text_gpt_scores, text_gpt_scores):
+             # negate loss for log probability
+-            phrase_text_mmi = -phrase_text_score + text_score + self.phrase_gpt_score
++            phrase_text_mmi = (pos_phrase_score - text_score) / text_score
+             phrase_text_mmis.append(phrase_text_mmi)
+         text_lens = [math.log(len(text.split())) for text in texts]
+ 
+-        return np.array(list(zip(phrase_text_mmis, text_lens)))
++        return np.array(list(zip(text_gpt_scores, phrase_text_mmis, text_lens)))
+ 
+ 
+ def sentence_bert_score(r1, r2, embedder):
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index 975902d..9d04e80 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -11,7 +11,7 @@ import numpy as np
+ accepted_submissions_file = 'data/accepted_submissions.tsv'
+ negative_submissions_file = 'data/negative_submissions.tsv'
+ rejected_submissions_file = 'data/rejected_submissions.tsv'
+-n_features = 1
++n_features = 3
+ n_epochs = 1000
+ learning_rate = 0.001
+ batch_size = 2

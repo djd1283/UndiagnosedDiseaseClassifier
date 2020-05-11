@@ -1,0 +1,10 @@
+Loading pre-trained models
+Extracting features
+[False, True, False, False, False, False, True, True, False, True, False, True, False, False, True, True, False, False, False, True, False, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, True, True, True, False, False, True, False, False, False, False, False, False, False, False, False, False, True, False, True, True, False, False, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, True, False, False, False, False, True, False, True, False, False, False, False, False, True, True, False, False]
+(108, 6)
+Dataset size: 108
+Parameter containing:
+tensor([[ 0.4179, -0.8413, -0.2659,  0.6177,  1.2065,  1.2551]],
+       requires_grad=True)
+Parameter containing:
+tensor([0.0191], requires_grad=True)

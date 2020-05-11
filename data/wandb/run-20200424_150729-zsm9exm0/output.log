@@ -1,0 +1,8 @@
+Loading pre-trained models
+Extracting features
+(108, 2)
+Dataset size: 108
+Parameter containing:
+tensor([[-0.4184,  0.4610]], requires_grad=True)
+Parameter containing:
+tensor([-2.1330], requires_grad=True)

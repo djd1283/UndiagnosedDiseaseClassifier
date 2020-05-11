@@ -1,0 +1,42 @@
+Loading pre-trained models
+Num accepted 29, num rejected 29
+Extracting features
+(58, 7)
+Loading pre-trained models
+Num accepted 24, num rejected 24
+Extracting features
+(48, 7)
+Loading pre-trained models
+Num accepted 24, num rejected 1000
+Extracting features
+WARNING:transformers.tokenization_utils:Token indices sequence length is longer than the specified maximum sequence length for this model (2043 > 512). Running this sequence through the model will result in indexing errors
+Traceback (most recent call last):
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 164, in <module>
+    main()
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/train_undiagnosed_classifier.py", line 83, in main
+    seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 125, in __init__
+    self.features = self.extractor.extract_features(self.texts)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 157, in extract_features
+    text_gpt_scores = gpt_log_prob_score(texts, self.gpt, self.tokenizer, return_all=True)
+  File "/home/david/PycharmProjects/UndiagnosedDiseaseClassifier/datasets.py", line 221, in gpt_log_prob_score
+    outputs = model(input_ids, labels=input_ids)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/david/dl/lib/python3.7/site-packages/transformers/modeling_openai.py", line 516, in forward
+    inputs_embeds=inputs_embeds)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/david/dl/lib/python3.7/site-packages/transformers/modeling_openai.py", line 449, in forward
+    outputs = block(hidden_states, attention_mask, head_mask[i])
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/david/dl/lib/python3.7/site-packages/transformers/modeling_openai.py", line 249, in forward
+    attn_outputs = self.attn(x, attention_mask=attention_mask, head_mask=head_mask)
+  File "/home/david/dl/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/david/dl/lib/python3.7/site-packages/transformers/modeling_openai.py", line 213, in forward
+    attn_outputs = self._attn(query, key, value, attention_mask, head_mask)
+  File "/home/david/dl/lib/python3.7/site-packages/transformers/modeling_openai.py", line 175, in _attn
+    w = w * b + - 1e4 * (1 - b)
+RuntimeError: The size of tensor a (2043) must match the size of tensor b (512) at non-singleton dimension 3

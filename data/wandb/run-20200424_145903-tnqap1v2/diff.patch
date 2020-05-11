@@ -1,0 +1,13 @@
+diff --git a/train_undiagnosed_classifier.py b/train_undiagnosed_classifier.py
+index 975902d..a25afb4 100644
+--- a/train_undiagnosed_classifier.py
++++ b/train_undiagnosed_classifier.py
+@@ -11,7 +11,7 @@ import numpy as np
+ accepted_submissions_file = 'data/accepted_submissions.tsv'
+ negative_submissions_file = 'data/negative_submissions.tsv'
+ rejected_submissions_file = 'data/rejected_submissions.tsv'
+-n_features = 1
++n_features = 2
+ n_epochs = 1000
+ learning_rate = 0.001
+ batch_size = 2

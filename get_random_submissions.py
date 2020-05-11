@@ -33,6 +33,7 @@ def generate_negative_posts(reddit, n_posts):
 
 
 def main():
+    n_posts = 2000
 
     creds = load_credentials()
 
@@ -40,8 +41,10 @@ def main():
                          client_secret=creds['secret'],
                          user_agent=creds['agent'])
 
-    # we generate the same number of negative examples as positive examples
-    n_posts = sum([1 for line in open(os.path.join(data_dir, accepted_submissions_file), 'r')])
+    # we generate the same number of negative examples as positive examples if n_posts is not specified
+    if n_posts is None:
+        n_posts = sum([1 for line in open(os.path.join(data_dir, accepted_submissions_file), 'r')])
+
     print(f'Number of negative submissions: {n_posts}')
 
     negative_submissions = generate_negative_posts(reddit, n_posts)

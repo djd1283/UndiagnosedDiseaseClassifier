@@ -1,0 +1,42 @@
+diff --git a/datasets.py b/datasets.py
+index 8a962f8..c128aec 100644
+--- a/datasets.py
++++ b/datasets.py
+@@ -3,6 +3,7 @@ import csv
+ import random
+ import torch
+ import math
++import nltk
+ import numpy as np
+ from transformers import OpenAIGPTTokenizer, OpenAIGPTLMHeadModel
+ from sentence_transformers import SentenceTransformer
+@@ -59,8 +60,13 @@ class UndiagnosedFeatureExtractor:
+         self.gpt = OpenAIGPTLMHeadModel.from_pretrained('openai-gpt').cuda()
+         self.embedder = SentenceTransformer('bert-base-nli-mean-tokens').cuda()
+         self.pos_phrase = "I have an undiagnosed disease. "
++
+         self.keywords = [term.strip().lower() for term in open('tweet_crawler/terms.txt').read().split('\n')
+                          if term != "" and term != "undiagnosed" and term != "disease"]
++
++        self.udn_examples = list(open('data/UDN_patient_search_TWEET_samples.txt').read().split('\n')) + \
++                            list(open('data/UDN_patient_search_WEB_samples.txt').read().split('\n'))
++
+         # self.phrase_gpt_score = gpt_log_prob_score([self.phrase], self.gpt, self.tokenizer)
+         self.pos_phrase_emb = self.embedder.encode([self.pos_phrase])[0]
+ 
+@@ -97,7 +103,14 @@ class UndiagnosedFeatureExtractor:
+ 
+         # DOCTORS FEATURE
+         texts_have_doctors = ['doctors' in text.lower() for text in texts]
+-        print(texts_have_doctors)
++
++        # UDN EXAMPLES FEATURE
++        udn_features = []
++        for text in texts:
++            udn_bleu = nltk.translate.bleu_score.sentence_bleu(self.udn_examples, text)
++
++            udn_features.append(udn_bleu)
++        print(udn_features)
+ 
+         return np.array(list(zip(sbert_scores, text_gpt_scores, phrase_text_mmis, text_lens, texts_have_keywords,
+                                  texts_have_doctors)))

@@ -1,0 +1,11 @@
+Extracting features
+/home/david/dl/lib/python3.7/site-packages/nltk/translate/bleu_score.py:523: UserWarning: 
+The hypothesis contains 0 counts of 4-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+(150, 7)
+Extracting features
+(50, 7)
+Extracting features
