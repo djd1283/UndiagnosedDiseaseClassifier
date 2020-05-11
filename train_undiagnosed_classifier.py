@@ -17,6 +17,9 @@ train_negative_tweets_file = 'data/tweet_dataset/train_texts_negative_clean2.txt
 val_accepted_tweets_file = 'data/tweet_dataset/val_selected.txt'
 val_negative_tweets_file = 'data/tweet_dataset/val_texts_negative_clean2.txt'
 
+trec_eval_labels_file = 'data/trec_eval_labels.txt'
+trec_eval_scores_file = 'data/trec_eval_scores.txt'
+
 n_features = 7
 n_epochs = 1000
 learning_rate = 0.001
@@ -28,6 +31,41 @@ max_negatives = 100
 torch.random.manual_seed(seed)
 
 dataset_name = "twitter"
+
+
+def produce_files_for_rank_evaluation(test_ds, classifier):
+    """The goal of this function is to produce ranking scores for all examples in the test dataset
+    along with labels as to whether or not they contain an undiagnosed disease. Then save the labels and
+    scores to different files according to trec_eval and use trec_eval to evaluate"""
+
+    test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
+
+    ranking_scores = []
+    labels = []
+
+    for batch in test_dl:
+        # train on examplesw
+        with torch.no_grad():
+            x = batch[0].float()
+            y = batch[1].float().unsqueeze(1)
+            preds = classifier(x)
+
+        ranking_scores.append(preds)
+        labels.append(y)
+
+    ranking_scores = torch.cat(ranking_scores, 0).squeeze(1).numpy()
+    labels = torch.cat(labels, 0).squeeze(1).numpy()
+
+    with open(trec_eval_labels_file, 'w') as f_labels:
+        with open(trec_eval_scores_file, 'w') as f_scores:
+            for i, (score, label) in enumerate(zip(ranking_scores, labels)):
+                # write label to one file, write score to another
+                    f_labels.write(f'Q1046 0 {i} {label}\n')
+                    f_scores.write(f'Q1046 0 {i} - {score} standard\n')
+
+
+
+
 
 
 def main():
@@ -45,6 +83,11 @@ def main():
         val_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
                                            seed=seed)
 
+        # the test set contains a larger number of negative examples (max_negatives) for top-k ranking
+        test_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file,
+                                            rejected_file=val_negative_tweets_file,
+                                            seed=seed, equal_accept_rej=False, max_examples=max_negatives)
+
     print(f'Train dataset size: {len(train_ds)}')
     print(f'Validation dataset size: {len(val_ds)}')
     # load models required
@@ -55,6 +98,10 @@ def main():
     # create dataloader
     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+
+    # here we perform evaluation without training to test
+    produce_files_for_rank_evaluation(test_ds, classifier)
+    exit()
 
     # run through examples
 
@@ -101,13 +148,9 @@ def main():
     # here we must grab all positive examples and a larger number of negative examples
     # save them to files of a format corresponding to the 'trec_eval' package
 
-    # the test set contains a larger number of negative examples (max_negatives) for top-k ranking
-    test_ds = TwitterUndiagnosedDataset(accepted_file=val_accepted_tweets_file, rejected_file=val_negative_tweets_file,
-                                        seed=seed, equal_accept_rej=False, max_examples=max_negatives)
-
-    test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
-
     # TODO produce ranking scores for each example in the test set, write them to files for trec_eval
+
+    produce_files_for_rank_evaluation(test_ds, classifier)
 
 
 if __name__ == '__main__':
