@@ -1,0 +1,205 @@
+Female, age 1 with brain abnormalities (agenesis of the corpus callosum and arachnoid cyst) and chronic diarrhea caused by a change in the ARX gene (with severity impacted by her diagnosis of mosaic Turner syndrome)
+Female, age 3 with limited joint movement (arthrogryposis) and low muscle tone (hypotonia)
+Male, age 12 with intellectual disability, seizures, brain abnormalities (ventriculomegaly, malrotation of bilateral hippocampi), and bulging, weakened wall of the aortic root (aortic root aneurysm)
+Female, age 26 with a history of global developmental delay, moderate intellectual disability, and autism caused by a change in the SPTBN1 gene
+Male, age 3 with global developmental delay, abnormal muscle tone and movement, and light pigmentation of the hair and skin (hypopigmentation)
+Male, age 7 with global developmental delay, hearing loss, gastrointestinal abnormalities, and absent saliva flow (xerostomia) caused by a change in the SLC12A2 gene
+Male, age 8 with global developmental delay, large head size (macrocephaly), low muscle tone (hypotonia), and seizures
+Female, age 14 with severe intellectual disability, language delay (receptive and expressive language delay), and mild dysmorphic features
+Female, age 4 with seizures and global developmental delay
+Female, age 3 with global developmental delay, failure to thrive, absent speech, and low muscle tone (hypotonia)
+Female, age 43 with itchy skin inflammation (psoriasiform dermatitis), blood clots in veins (thrombophlebitis), and head and joint pain (arthralgia)
+Male, age 14 with gross motor and language delay, borderline intellectual disability, and damage to the optic nerve (optic atrophy)
+Male, age 17 with intellectual disability, history of leukemia, heart abnormalities, and multiple abnormal bone and cartilage growths (osteochondromas)
+Female, age 17 with global developmental delay, seizures, problems with coordination (ataxia), and involuntary muscle contractions (dystonia)
+Female, age 6 with carnitine deficiency, thyroid disease, episodes of brain disease (episodic encephalopathy), problems with coordination (ataxia), and low blood sugar (hypoglycemia)
+Male, age 4 with Roifman syndrome caused by changes in the RNU4ATAC gene
+Male, age 4 with global developmental delay thought to be caused by a genetic change in the FBXO11 gene
+Male, age 24 with seizures, growth hormone deficiency, low levels of pituitary hormones (panhypopituitarism), and low levels of blood cells (pancytopenia)
+Female, age 10 with seizures, eye abnormalities (retinal coloboma, microphthalmia, strabismus) and severe global developmental delay
+Female, age 2 with global developmental delay, brain abnormalities, abnormal head movements, and trembling during precise movement (intention tremor)
+Male, age 5 with delayed gastric emptying (gastroparesis), episodes of low blood sugar and high ketones (ketotic hypoglycemia), kidney abnormalities, gait disturbance, and high blood pressure (hypertension)
+Male, age 4 with global developmental delay, decreased muscle tone (hypotonia), delayed brain development (delayed myelination), visual impairment, and a large head size (macrocephaly)
+Female, age 2 with seizures, profound global developmental delay, involuntary movements (chorea), and elevated serum pipecolic acid
+Male, age 16 with weak and brittle bones (osteoporosis), immune system abnormalities (antinuclear antibody positivity), and type 1 diabetes mellitus
+Female, age 18 with seizures, severe intellectual disability, regression, and abnormal brain findings
+Female, age 16 with intellectual disability, seizures, and brain and skeletal abnormalities (craniosynostosis, congenital hip and knee dislocation, hydrocephalus with an Arnold-Chiari type I malformation)
+Female, age 10 with Turner syndrome and an undiagnosed neurological condition
+Male, age 39 with involuntary muscle contractions (dystonia), difficulty speaking (dysphonia), and abnormal eye movements (saccadic smooth pursuit)
+Male, age 10 with severe global developmental delay, seizures, and aggressive behavior
+Male, age 1 with skeletal and brain anomalies, cloudy corneas, and adrenal insufficiency
+Male, age 4 with global developmental delay, brain abnormalities, seizures, and hearing and vision loss
+Male, age 12 with rapid progression of muscle weakness, problems with coordination (ataxia), and difficulty speaking (dysarthria)
+Female, age 5 with severe failure to thrive, low muscle tone, absence seizures, global developmental delay, scoliosis, high pain tolerance, and areas of darker and lighter skin on her right leg caused by triploidy mosaicism
+Male, age 13 with intellectual disability, absent speech, seizures, abnormality of brain white matter (periventricular leukomalacia), & curvature of the spine (kyphosis, scoliosis)
+Female, age 3 with a skeletal disorder thought to be caused by two variants in the TRIP11 gene
+Male, age 56 with lower motor neuron disease, muscle weakness, and muscle twitching (fasciculations)
+Male, age 25 with seizures, curvature of the spine (scoliosis), weak and brittle bones (osteoporosis), joint pain, and nontraumatic spine and rib fractures
+Male, passed away at age 2 with symptoms characteristic of You-Hoover-Fong syndrome thought to be caused by genetic changes in the TELO2 and TTI2 genes
+Male, age 7 with global developmental delay, abnormal muscle contractions (dystonia), repetitive behaviors (stereotypy) and decreased tear secretion and sweating
+Male, age 5 with global developmental delay caused by a change in the MAPK8IP3 gene
+Male, age 15 with gastrointestinal dysmotility and chronic constipation
+Female, age 4 with seizures, global developmental delay, and underdeveloped optic nerve (optic nerve hypoplasia)
+Male, age 3 with global developmental delay, low muscle tone, and feeding difficulties
+Male, age 15 with arrhythmogenic right ventricular cardiomyopathy thought to be caused by genetic changes in the TAX1BP3 gene
+Female, age 33 with rapid, unexplained bilateral vocal cord spasms and muscle weakness
+Female, age 9 with spastic diplegia, low bone mineral density, and global developmental delay
+Female, age 18 with hearing and vision loss, bleeding disorder (Von Willebrand disease), and history of a tumor in infancy (sacrococcygeal germ cell tumor)
+Male, age 7 with intractable seizures, global developmental delay, absent speech, and low muscle tone (muscular hypotonia)
+Male, age 16 with aromatic l-amino acid decarboxylase deficiency
+Female, age 10 with a tall and slender build (marfanoid habitus), seizures, IgA deficiency, and GI issues (gastrointestinal dysmotility)
+Female, age 6 with global developmental delay, severe motor impairment, involuntary muscle contractions (dystonia), and variants in the PAPSS1 gene
+Female, age 57 with progressive, undiagnosed muscle weakness
+Male, age 5 with absent speech, intellectual disability, and uncoordinated walking (gait ataxia) caused by a genetic change in the ATP6V1A gene
+Male, age 40 with abnormal bladder function (nocturia, polyuria, isosthenuria), acute kidney injury, and poor regulation of heart rate when moving from sitting to standing (postural orthostatic tachycardia syndrome)
+Female, age 5 with short stature, hyper-extensible joints, fine hair, anemia, and leukocytosis
+Male, age 8 with difficulty growing (failure to thrive) and GI issues (gastrointestinal dysmotility)
+Female, age 25 with Landau-Kleffner syndrome and progressive lower limb weakness
+Female, age 5 with developmental delay, seizures, congenital cataracts, hearing loss, swallowing difficulty, atrial septal defect, repetitive behaviors (stereotypy), low blood platelet levels (thrombocytopenia), anemia, and a blueberry muffin rash identified at birth
+Female, age 10 with multiple congenital anomalies including choanal stenosis, Chiari 1 malformation, two-vessel short cord, right eye microphthalmia with coloboma, and heart defects (bicuspid aortic valve, hypoplasia of aortic arch)
+Male, age 4 with involuntary movements (choreoathetosis), global developmental delay, epileptic encephalopathy, eye turning inward (alternating esotropia), episodic eye rolling, and low muscle tone in trunk (axial hypotonia)
+Female, age 8 with an undiagnosed progressive neuromuscular disorder with fatigue, global developmental delay and regression, severe gastrointestinal issues including poor gut motility with TPN dependency, failure to thrive, seizures, frequent infections, and autonomic dysfunction
+Female, age 47 with painful redness of the feet, hands, and ears (erythromelalgia)
+Female, age 14 with difficulty walking (gait ataxia), trembling during precise movement (intention tremor), and learning disabilities
+Female, age 12 with epileptic encephalopathy caused by a genetic change in the GABRB2 gene
+Male, age 2 with low muscle tone, muscle weakness, and chronic respiratory issues
+Male, age 23 with an undiagnosed, young adult-onset neurological disorder with cognitive decline and uncontrolled seizures
+Male, age 10 with developmental regression, absent speech, seizures, and distinct facial features
+Female, age 5 with global developmental delay, absent speech, sparse hair, seizures, brain abnormalities, and short stature
+Female, age 32 with short stature, abnormal calcification in the kidneys (nephrocalcinosis), progressive hearing impairment (sensorineural), and diabetes
+Male, age 6 with chronic high blood pressure (hypertension), recurrent respiratory infections, and low muscle tone (central hypotonia)
+Female, age 26 with recurrent and severe bacterial, viral, and fungal infections
+Female, age 8 with hereditary spastic paraplegia type 35
+Female, age 27 with an undiagnosed progeria-like syndrome
+Female, age 13 with recurrent skin rashes, immune system abnormalities (autoimmune hemolytic anemia, antiphospholipid antibody positivity), and muscle pain (myalgia)
+Female, age 8 with seizures, weekly episodes of confusion and hallucination, problems with coordination (ataxia), tremor, ulcerative colitis, pancreas inflammation (pancreatitis), and developmental delay
+Male, age 7 with global developmental delay, lack of coordinated movement (dysmetria), toe walking, right sided weakness, right hearing impairment, and weak cartilage in the walls of the larynx (laryngomalacia)
+Female, age 11 with Wieacker-Wolff syndrome
+Male, age 8 with an neuromuscular disorder caused by a change in the LMNA gene
+Male, age 10 with arthrogryposis multiplex congenita causing decreased flexibility of his joints, low muscle tone (muscle hypotonia), and low bone density (osteopenia)
+Male, age 6 with developmental delay, difficulty swallowing (dysphagia), low muscle tone (hypotonia), and difficulty walking (progressive gait disturbance)
+Female, age 22 with refractory seizures
+Male, age 11 with childhood onset dystonia 28
+Male, age 5 with developmental delay and regression, seizures, and difficulty controlling voluntary movements (ataxia)
+Female, age 2 with an undiagnosed autoimmune condition
+Male, age 21 months with weakness of the left side of the body (hemiparesis), seizures, and mast cell accumulation (mastocytosis)
+Male, age 30 with GDF11-associated multiple congenital anomalies and intellectual disability
+Female, age 14 with ataxia and progressive myoclonic epilepsy caused by a change in the ADGRV1 gene
+Female, age 11 with features of Multiple pterygium syndrome, Escobar type. Her sister, age 8, is similarly affected. This condition can cause webbing of the skin, especially around the neck, fingers, elbows, and knees. Other symptoms of this condition include restriction of the joints (arthrogryposis) and a sideways curve of the spine (scoliosis). This syndrome is typically caused by mutations in the CHRNG gene, but testing for mutations in this gene has been negative.
+Male, age 8 with TRIP12 associated autism with facial dysmorphology
+Female, age 5 with global developmental delay, rhythmic and repetitive movements (stereotypic movements), and difficulty feeding
+Male, age 4 with Helsmoortel-van der Aa syndrome
+Male, age 11 with damage to the nerve that connects the eye to the brain (optic atrophy), drooping eyelids (congenital, bilateral, progressive ptosis), uncontrolled muscle movements (ataxia), and progressive fatigue
+Female, age 8 with sudden behavioral change, developmental regression, repetitive speech (echolalia), and brain abnormalities
+Male, age 62 with tall stature, a protruding area at the back of the head (occipital protuberance), atrial fibrillation, fragile and sagging skin, bowel diverticulitis, and chronic diarrhea
+Female, age 49 with a history of a splenic artery aneurysm and gallbladder inflammation (cholecystitis), joint and muscle pain and weakness, and memory impairment
+Female, age 6 with developmental delay, joint contractures, seizures, and multiple birth defects
+Male, age 4 with developmental delay, difficulty coordinating voluntary muscle movements (ataxia), autistic behaviors, and different facial features
+Male, age 20 with regression, paralysis (spastic tetraplegia), and brain damage (cerebellar atrophy)
+Male, age 34 with multiple benign fatty tumors under the skin (adiposis dolorosa, angiolipomatosis)
+Male, age 17 with short stature, intellectual disability, heart disease, seizures, low testosterone, episodes of sporadic high and low blood pressure, hypogonadism, slow cognitive function, thrombocytopenia, kidney disease, osteoporosis, and spondyloarthritis
+Male, age 11 with intellectual disability, absent speech, and very happy disposition
+Male, age 40 with mucopolysaccharidosis type IIIC (Sanfilippo C) caused by genetic changes in the HGSNAT gene
+Male, age 12 with overgrowth and developmental delay caused by a change in the GNAS gene
+Female, age 3 with pontocerebellar hypoplasia, type 2D
+Male, age 4 with low muscle tone (hypotonia), seizures (epilepsy), and developmental delay
+Male, age 4 with absent speech, low muscle tone (hypotonia), developmental delay, small head size (microcephaly), and short stature
+Male, age 4 with a history of infantile spasms and an undiagnosed metabolic disorder (elevated alanine and lactate)
+Female, age 26 with muscle weakness and pain (myalgia), chronic fatigue, exercise intolerance, and severe episodes of weakness, dizziness, and paralysis
+Female, age 17 with muscular dystrophy, limb-girdle, type 2Y
+Male, age 5 with developmental delay and abnormal MRI findings (T2 hyperintensity of caudate nuclei and putamen bilaterally)
+Male, age 6 with developmental regression, hypotonia, difficulty controlling voluntary movements (limb and truncal ataxia), and lack of coordination
+Male, age 70 with Schnitzler syndrome
+Male, age 4 with seizures (infantile spasms), abnormal MRI findings (delayed myelination, thinning of the corpus callosum), and developmental delay
+Female, age 8 with very low blood sugar (hypoglycemia), developmental delay, and a history of birth defects (tetralogy of Fallot, Chiari I malformation, tethered cord)
+Male, age 5 with absolute iron deficiency anemia
+Female, age 14 with overgrowth, increased androgen secretion at an early age (premature adrenarche), and menstrual periods with heavy and prolonged bleeding (menorrhagia)
+Female, age 15 with weakness and stiffness in her limbs (spastic paraparesis), uncontrollable muscle contractions (dystonia), and slurred speech (dysarthria)
+Female, age 2 with developmental delay, seizures, vision loss (cortical visual impairment) and a small head size (microcephaly)
+Female, age 24 with poor muscle coordination (ataxia), blurred vision (cataracts), intellectual disability, hearing loss (sensorineural), and small, discolored, and easily damaged teeth (amelogenesis imperfecta)
+Female, age 22 with short stature; joint contractures; tight, thickened skin; growth hormone deficiency; and restrictive lung disease.
+Male, age 28 with a neurodegenerative condition
+Female, age 44 with history of migraine headaches, sleep apnea, anxiety, myoclonic jerks, temperature intolerance, arthritis of the hands, osteoarthritis of the spine
+2 year-old male with visual impairment, repetitive and uncontrolled eye movements (nystagmus), low muscle tone (hypotonia), unsteady walk (gait), and developmental delay
+Female, age 22 with a progressive neuromuscular condition
+Female, age 26 with itchy skin inflammation (atopic dermatitis), hyper-active immune system, asthma, very high immunoglobulin E (IgE) levels, and swollen lymph nodes (lymphadenopathy)
+Male, age 8 with Floating Harbor syndrome
+Female, age 14 with autism spectrum disorder, intellectual disability, self-injurious behaviors, seizures, muscle weakness, a large head size (macrocephaly), and a brain tumor (astrocytoma)
+Female, age 20 with early onset hearing loss, frequent fevers and flares of pain with blurred vision and vomiting, systemic itching, delayed gastric emptying (gastroparesis), recurrent infections, and reduced sweating
+Female, age 49 with muscle weakness, balance problems, clumsiness, muscle twitching (fasciculations) and cramps, abnormal heart rhythm (second-degree AV block), episodes of high potassium (hyperkalemia), restrictive lung disease, double vision (diplopia), and seizures
+Female, age 2 with congenital disorder of glycosylation, type IIm
+Male, age 55 with wheezing, chronic sinus infections (sinusitis), nasal polyps, chronic fatigue, a bulging, weakened wall of the aortic root (ascending aortic root aneurysm), and neuropathy
+Male, age 7 with a complex neuromuscular condition
+Female, age 14 with primary ciliary dyskinesia
+Male, age 13 with global developmental delay, autism, severe nearsightedness (myopia), different facial features, and a history of heart defects (atrial septal defect, ventricular septal defect) and cleft palate
+Male, age 35 with triple A syndrome (achalasia (esophagus damage), Addison disease (adrenal gland disorder), and alacrima (inability to produce tears) of unknown cause
+Male, age 3 with low muscle tone (hypotonia), developmental delay, and increased weight
+Male, age 8 who is larger than average (macrosomia) and has atypical facial features (including a large birthmark on his forehead (glabellar hemangioma)), a decrease in brain white matter (cerebral white matter atrophy), and learning difficulties
+Male, age 20 months with seizures, cataracts, a small head size (microcephaly), and global developmental delay
+Female, age 8 with a neurological condition
+Female, age 2 with an undiagnosed condition
+Male, age 10 with features of DiGeorge syndrome. DiGeorge syndrome is a condition that can cause multiple medical problems, including heart defects, poor immune system function, a cleft palate, and delayed development.
+1-year-old with agenesis of the corpus callosum, arachnoid cyst, and chronic diarrhea caused by a variant in the ARX gene (severity impacted by her diagnosis of mosaic Turner syndrome).
+3yr old w/ arthrogryposis, hypotonia & variants in MYH8. Clinicians don't think trismus-pseudocamptodactyly syndrome is explanation for symptoms. Reach out if you know others w/ similar symptoms & variants in MYH8!
+Male, age 14 with gross motor and language delay, borderline intellectual disability, optic atrophy, and variant in the PUM2 gene. 
+4-year-old with seizures, global developmental delay, and a variant in the GRIN2A gene. 
+an extremely rare condition caused by a de novo variant in ACOX1.
+26-year-old with a history of global developmental delay, moderate intellectual disability, and autism caused by a variant in the SPTBN1 gene.
+Male, age 17 with intellectual disability, history of leukemia, heart abnormalities, multiple osteochondromas, and variants in the SOX5 and TENM2 genes.
+10-year-old with seizures, retinal coloboma, microphthalmia, strabismus, and severe global developmental delay.
+43-year-old with psoriasiform dermatitis, thrombophlebitis, and arthralgia.
+a 3-year-old with global developmental delay, failure to thrive, absent speech, hypotonia, and variants in the COG1, COG5, and PDE2A genes.
+a 12yr old w/ intellectual disability, seizures, ventriculomegaly, malrotation of bilateral hippocampi, aortic root aneurysm, & variant in NRBP1
+Looking for others with variants in the FAM177A1 gene. We have siblings with developmental delay, macrocephaly, hypotonia, and seizures with variants in this gene.
+a 14-year-old with severe intellectual disability, language delay, mild dysmorphic features, and a variant in the MKL2 gene.
+5-year-old with gastroparesis, ketotic hypoglycemia, kidney abnormalities, gait disturbance, and hypertension.
+18-year-old with seizures, severe intellectual disability, regression, abnormal brain findings, and variants in the SEC24C gene.
+a 16-year-old with intellectual disability, seizures, and history of hydrocephalus and congenital hip and knee dislocations.
+a 56-year-old with lower motor neuron disease, muscle weakness, and fasciculations.
+4-year-old with seizures, global developmental delay, and underdeveloped optic nerve (optic nerve hypoplasia). 
+Female w/ rapid, bilateral vocal cord spasms, muscle weakness, & variants in SLC16A8 & SLC33A1 genes.
+7 years old and has intractable seizures, global developmental delay, absent speech, and hypotonia.
+Female, age 6 with global developmental delay, severe motor impairment, dystonia, and variants in the PAPSS1 gene.
+a 6-year-old with chronic high blood pressure, recurrent respiratory infections, and low muscle tone.
+a 26-year-old with an undiagnosed progeria-like syndrome.
+13 year old with recurrent skin rashes, immune system abnormalities (autoimmune hemolytic anemia, antiphospholipid antibody positivity), and muscle pain (myalgia).
+a 7 yr old boy with developmental delay, lack of coordinated movement (dysmetria), toe walking, right sided weakness, and weak cartilage in the walls of the larynx (laryngomalacia)
+an 11 year old girl with Wieacker-Wolff syndrome
+22 year old woman with an undiagnosed progressive neuromuscular condition
+an 11 year old boy with childhood onset dystonia (MIM #617284) caused by a de novo c.4931G>T variant in the KMT2B gene
+a 2 year old female with an undiagnosed autoimmune condition
+an undiagnosed little boy, age 21 months, w/ hemiparesis, seizures & mastocytosis
+undiagnosed 12 year old female with ataxia and progressive myoclonic epilepsy
+two sisters (ages 8 & 11) w/ features of Multiple pterygium syndrome, Escobar type; CHRNG sequencing & del/dup testing was negative
+28 year old male with a progressive neurodegenerative condition of unknown etiology
+16yo female w/ unexplained progressive muscle weakness & MYH7, TOR1AIP1 variants
+4 year old boy diagnosed w/ Helsmoortel-van der Aa syndrome caused by a novel de novo variant (c.539_542delTTAG) in the ADNP gene
+11 year old boy w/ optic atrophy, congenital bilateral ptosis, ataxia & progressive fatigue
+undiagnosed 49 year old woman with h/o splenic artery aneurysm & cholecystitis, joint/muscle pain & weakness, memory impairment
+6 year old girl w/ developmental delay, joint contractures, seizures & multiple birth defects
+male siblings w/ ataxia, hypotonia, abn MRI & VUS in MT-TL2 & ZDHHC9
+undiagnosed 2 year old w/ seizures, vision loss, microcephaly
+a 26 year old woman with atopic dermatitis & very high IgE levels
+4 year old boy with hypotonia, epilepsy, and developmental delay
+22yo woman w/ a progressive neuromuscular condition of unknown etiology
+16yo female w/ unexplained progressive muscle weakness & variants MYH7, TOR1AIP1
+24yo female w/ ataxia, cataracts, hearing loss & amelogenesis imperfecta 
+28 year old male with an #undiagnosed neurodegenerative condition
+8yo girl w/ hypoglycemia, developmental delay & a history of birth defects
+13yo boy w/ #myopia #strabismus #ADHD #heartdefect #cleftpalate
+14 year old w/ ASD, self-injurious behavior, regression
+DiGeorge syndrome & a variant in the TBX2 gene
+20 year old woman w/ early onset hearing loss, recurrent infections & other health issues
+22 year old woman with an undiagnosed, progressive, neuromuscular condition
+Triple A syndrome & no variants in AAAS
+#macrosomia #hemangioma & a variant in the #ASXL2 gene
+variants in the #NACC1 #gene #seizures #cataracts #microcephaly #undiagnosed #RareDisease
+Triple A syndrome but no change in the AAAS gene #achalasia #Addisondisease #alacrima
+dev delay, nearsightedness & other issues since birth #myopia #strabismus #autism #RareDisease
+#hypotonia, dev delay & increased weight (seq analysis ongoing)
+#DiGeorge/#VCFS but no #22q deletion. #TBX2
+dev delay, nearsightedness & other issues since birth #myopia #strabismus #autism #RareDisease
+absent #thyroid, #polymyositis & variant in the #ZBTB24 #gene
+variants in the #NACC1 #gene #seizures #cataracts #microcephaly
+children with #CACNA1A variants
+a patient with a missing #thyroid & #polymyositis?
