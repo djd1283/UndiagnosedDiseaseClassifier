@@ -166,7 +166,7 @@ webencodings==0.5.1
 websocket-client==0.56.0
 websockets==8.1
 werkzeug==0.16.0
-wheel==0.33.6
+wheel==0.38.1
 widgetsnbextension==3.5.1
 wrapt==1.11.2
 youtokentome==1.0.6
